@@ -1,0 +1,29 @@
+<!-- Fullscreen map -->
+<div id="map"></div>
+
+<!-- Slide-up drawer -->
+<div id="drawer" aria-hidden="true">
+  <div id="drawerHeader" role="button" aria-label="Open panel">
+    <div id="headerLeft">
+      <div id="placeName">Click map to load weather</div>
+      <div id="placeElev" class="muted">Elevation: —</div>
+    </div>
+    <div id="headerRight">
+      <button id="closeBtn" title="Close">✕</button>
+    </div>
+  </div>
+
+  <div id="drawerContent">
+    <div id="chartBox">
+      <canvas id="weatherChart"></canvas>
+    </div>
+
+    <div id="sliderBox">
+      <div id="sliderWrapper">
+        <div id="slider"></div>
+      </div>
+    </div>
+
+    <div id="summary" class="model-legend"></div>
+  </div>
+</div>
