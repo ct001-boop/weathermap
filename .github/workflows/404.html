@@ -1,0 +1,25 @@
+diff --git a/404.html b/404.html
+new file mode 100644
+index 0000000000000000000000000000000000000000..ff11aec57a97b13e97dcb8159a741930d208cc52
+--- /dev/null
++++ b/404.html
+@@ -0,0 +1,19 @@
++<!DOCTYPE html>
++<html lang="en">
++<head>
++  <meta charset="UTF-8" />
++  <meta http-equiv="refresh" content="0; url=index.html" />
++  <title>Redirecting…</title>
++  <script>
++    const repoPath = '/weathermap/';
++    const targetPath = window.location.pathname.startsWith(repoPath) ? repoPath : '/';
++    const target = `${window.location.origin}${targetPath}`;
++    if (window.location.href !== target) {
++      window.location.replace(target);
++    }
++  </script>
++</head>
++<body>
++  <p>If you are not redirected automatically, <a href="index.html">open the homepage</a>.</p>
++</body>
++</html>
