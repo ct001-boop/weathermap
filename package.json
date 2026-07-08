@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "patch:snowfall": "node scripts/patch-snowfall.cjs",
-    "dev": "npm run patch:snowfall && vite --host 0.0.0.0",
-    "build": "npm run patch:snowfall && vite build",
+    "patch:horizon": "node scripts/patch-chart-horizon.cjs",
+    "patch:all": "npm run patch:snowfall && npm run patch:horizon",
+    "dev": "npm run patch:all && vite --host 0.0.0.0",
+    "build": "npm run patch:all && vite build",
     "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
