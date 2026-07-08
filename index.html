@@ -11,34 +11,28 @@
     <div id="brand">
       <span class="brand-text">SKIWEATHER</span>
     </div>
+
+    <form id="placeSearchForm" class="header-search" autocomplete="off">
+      <input
+        id="placeSearchInput"
+        type="search"
+        placeholder="Search any place, mountain, town..."
+        aria-label="Search place"
+      />
+      <button id="placeSearchBtn" type="submit">Search</button>
+      <div id="placeSearchResults" class="search-results hidden"></div>
+    </form>
+
+    <div id="headerAccount" class="header-account">
+      <span id="planBadge" class="badge badge-premium">Premium</span>
+      <button id="loginBtn" class="header-btn" type="button">Login / Sign up</button>
+      <button id="planTestToggleBtn" class="link-btn header-link" type="button">Switch back to Free test view</button>
+    </div>
   </header>
 
   <div id="map"></div>
 
-  <!-- Hidden compatibility controls for the older main app code.
-       The visible basemap selector is now only the Leaflet control in the top-right. -->
-  <div class="hidden" aria-hidden="true">
-    <div id="googleMap" class="hidden"></div>
-    <select id="basemapSelect">
-      <option value="esriTopo">Esri Topo + Hillshade</option>
-      <option value="street">OpenStreetMap Street</option>
-    </select>
-    <div id="googleKeyBox" class="hidden">
-      <input id="googleApiKeyInput" type="password" />
-      <button id="saveGoogleKeyBtn" type="button">Save Google key</button>
-    </div>
-  </div>
-
   <aside id="sidebar">
-    <section id="accountPanel" class="panel">
-      <div class="panel-title-row">
-        <h4 class="panel-title">Account</h4>
-        <span id="planBadge" class="badge badge-premium">Premium</span>
-      </div>
-      <button id="loginBtn" class="secondary-btn fullwidth" type="button">Login / Sign up</button>
-      <button id="planTestToggleBtn" class="link-btn small" type="button">Switch back to Free test view</button>
-    </section>
-
     <section id="adsBox" class="panel hidden">
       <h4 class="panel-title">Ads / Upgrade</h4>
       <p class="small">You are viewing the free version with a basic 10-day forecast.</p>
@@ -70,7 +64,6 @@
       <div id="headerLeft">
         <div id="placeName">Click map to load weather</div>
         <div id="placeElev" class="muted">Grid elevation: —</div>
-        <div id="modeTag" class="mode-tag">Forecast</div>
       </div>
       <div id="headerRight">
         <button id="closeBtn" type="button" title="Close">✕</button>
@@ -115,6 +108,11 @@
           <label class="pill-toggle pill-toggle-active">
             <input type="checkbox" data-layer="precip" checked />
             <span>Precip</span>
+          </label>
+
+          <label class="pill-toggle pill-toggle-active">
+            <input type="checkbox" data-layer="snowfall" checked />
+            <span>Snowfall</span>
           </label>
 
           <label class="pill-toggle pill-toggle-active">
@@ -189,18 +187,6 @@
     </div>
   </div>
 
-  <script>
-    // Remove old Google Terrain preference so nobody gets routed back to it after this update.
-    try {
-      if (localStorage.getItem('snowapp_basemap') === 'googleTerrain') {
-        localStorage.setItem('snowapp_basemap', 'esriTopo');
-      }
-      localStorage.removeItem('snowapp_google_maps_key');
-    } catch (error) {
-      console.warn('Could not clear old Google Terrain preference', error);
-    }
-  </script>
   <script type="module" src="/src/main.js"></script>
-  <script type="module" src="/src/layer-memory.js"></script>
 </body>
 </html>
