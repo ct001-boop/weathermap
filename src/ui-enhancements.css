@@ -174,7 +174,7 @@
   }
 
   #map {
-    inset-top: 72px;
+    inset: 72px 0 0 0;
   }
 
   .header-search {
