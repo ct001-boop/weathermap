@@ -21,7 +21,7 @@ A Vercel-ready snowsports weather forecasting app.
 - 16-day premium forecast view
 - Archive view for recent past conditions
 - Combined or split charts
-- Estimated snowfall in cm
+- Estimated snowfall in cm using a temperature/snowline-based snow-to-liquid ratio
 - Wind and Cloud Base are unticked by default
 - Chart layer selections are remembered in browser localStorage
 - Black chart hover tooltip with white text
@@ -60,4 +60,4 @@ Then open the local URL shown in the terminal.
 - Forecast data comes from Open-Meteo APIs.
 - Place search uses public OpenStreetMap/Nominatim search.
 - Snowline is approximated from `freezing_level_height` where available, otherwise from 2 m temperature plus a standard lapse-rate calculation.
-- Snowfall is an estimate based on precipitation, temperature and approximate snowline, not an observed snow-depth forecast.
+- Snowfall is an estimate of settled snow depth. It converts liquid precipitation into approximate cm using temperature, snowline and a snow-to-liquid ratio. It is not observed snow depth.
