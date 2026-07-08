@@ -109,26 +109,27 @@
   top: 56px;
 }
 
+/* Selected forecast point: simple clean dot marker, not the broken Leaflet asset. */
 .weather-pin-icon {
-  width: 26px !important;
-  height: 26px !important;
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 999px;
   background: #0b72ff;
-  border: 2px solid #fff;
-  border-radius: 50% 50% 50% 0;
-  transform: rotate(-45deg);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  border: 3px solid #fff;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
   font-size: 0;
 }
 
 .weather-pin-icon::after {
   content: '';
   position: absolute;
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
   border-radius: 999px;
   background: #fff;
-  top: 7px;
-  left: 7px;
+  top: 5px;
+  left: 5px;
 }
 
 .ski-resort-icon {
