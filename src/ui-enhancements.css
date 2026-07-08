@@ -110,18 +110,25 @@
 }
 
 .weather-pin-icon {
-  width: 30px !important;
-  height: 30px !important;
-  border-radius: 999px;
+  width: 26px !important;
+  height: 26px !important;
   background: #0b72ff;
-  color: #fff;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  font-size: 17px;
-  line-height: 1;
   border: 2px solid #fff;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  font-size: 0;
+}
+
+.weather-pin-icon::after {
+  content: '';
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #fff;
+  top: 7px;
+  left: 7px;
 }
 
 .ski-resort-icon {
