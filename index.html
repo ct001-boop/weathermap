@@ -2,48 +2,161 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Snow Forecast Map</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Inter font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-
-  <!-- Leaflet CSS -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""
-  />
-
-  <!-- noUiSlider CSS -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.css"
-  />
-
-  <!-- Your main styles -->
-  <link rel="stylesheet" href="style.css" />
+  <meta name="description" content="SKIWEATHER snow forecast map for snowsports." />
+  <title>SKIWEATHER – Snow Forecast Map</title>
 </head>
 <body>
+  <header id="topBar">
+    <div id="brand">
+      <span class="brand-text">SKIWEATHER</span>
+    </div>
+  </header>
 
-  <!-- Fullscreen map + drawer (paste your CodePen HTML body here) -->
   <div id="map"></div>
+  <div id="googleMap" class="hidden"></div>
+
+  <aside id="sidebar">
+    <section id="accountPanel" class="panel">
+      <div class="panel-title-row">
+        <h4 class="panel-title">Account</h4>
+        <span id="planBadge" class="badge badge-premium">Premium</span>
+      </div>
+      <button id="loginBtn" class="secondary-btn fullwidth" type="button">Login / Sign up</button>
+      <button id="planTestToggleBtn" class="link-btn small" type="button">Switch back to Free test view</button>
+    </section>
+
+    <section id="mapPanel" class="panel">
+      <h4 class="panel-title">Map</h4>
+      <label class="field-label">
+        Basemap
+        <select id="basemapSelect" class="select-control">
+          <option value="esriTopo">Esri Topo + Hillshade</option>
+          <option value="street">OpenStreetMap Street</option>
+          <option value="googleTerrain">Google Terrain</option>
+        </select>
+      </label>
+      <div id="googleKeyBox" class="google-key-box hidden">
+        <p class="small muted">Google Terrain needs a browser API key restricted to your Vercel/GitHub domain.</p>
+        <input id="googleApiKeyInput" class="text-input" type="password" placeholder="Paste Google Maps API key" />
+        <button id="saveGoogleKeyBtn" class="secondary-btn fullwidth" type="button">Save Google key</button>
+      </div>
+    </section>
+
+    <section id="adsBox" class="panel hidden">
+      <h4 class="panel-title">Ads / Upgrade</h4>
+      <p class="small">You are viewing the free version with a basic 10-day forecast.</p>
+      <p class="small">Saved spots, archive view and the full 16-day forecast are reserved for Premium accounts.</p>
+    </section>
+
+    <section id="savedSpotsBox" class="panel">
+      <div class="panel-title-row">
+        <h4 class="panel-title">Saved spots</h4>
+        <button id="saveSpotBtn" class="tiny-btn" type="button" title="Save current spot">+ Save current</button>
+      </div>
+      <div id="savedSpotsList" class="spots-list"></div>
+      <div class="alerts-box">
+        <button id="checkAlertsBtn" class="secondary-btn fullwidth" type="button">Check conditions now</button>
+        <div id="alertsResults" class="alerts-results small"></div>
+      </div>
+    </section>
+
+    <section id="summaryPanel" class="panel">
+      <h4 class="panel-title">Averages</h4>
+      <div id="summary" class="model-legend"></div>
+    </section>
+  </aside>
 
   <div id="drawer" aria-hidden="true">
+    <div id="drawerGrab"></div>
+
     <div id="drawerHeader" role="button" aria-label="Open panel">
       <div id="headerLeft">
         <div id="placeName">Click map to load weather</div>
-        <div id="placeElev" class="muted">Elevation: —</div>
+        <div id="placeElev" class="muted">Grid elevation: —</div>
+        <div id="modeTag" class="mode-tag">Forecast</div>
       </div>
       <div id="headerRight">
-        <button id="closeBtn" title="Close">✕</button>
+        <button id="closeBtn" type="button" title="Close">✕</button>
       </div>
     </div>
 
     <div id="drawerContent">
+      <div id="controlsRow">
+        <div class="controls-left">
+          <button id="forecastModeBtn" class="chip chip-active" type="button">Forecast</button>
+          <button id="archiveModeBtn" class="chip" type="button" title="Archive">Archive</button>
+        </div>
+
+        <div class="controls-model">
+          <span class="settings-label">Model</span>
+          <select id="modelSelect" class="model-select" aria-label="Forecast model">
+            <option value="openmeteo">Open-Meteo Best Match</option>
+            <option value="ecmwf">ECMWF IFS</option>
+            <option value="icon">DWD ICON Seamless</option>
+          </select>
+        </div>
+
+        <div class="controls-right">
+          <button id="saveSpotChartBtn" class="ghost-btn small-btn" type="button" title="Save this spot">☆ Save spot</button>
+        </div>
+      </div>
+
+      <div id="chartSettingsRow" class="premium-only">
+        <div class="chart-settings-left">
+          <span class="settings-label">Layers</span>
+
+          <label class="pill-toggle pill-toggle-active">
+            <input type="checkbox" data-layer="temp" checked />
+            <span>Temp</span>
+          </label>
+
+          <label class="pill-toggle pill-toggle-active">
+            <input type="checkbox" data-layer="snowline" checked />
+            <span>Snowline</span>
+          </label>
+
+          <label class="pill-toggle pill-toggle-active">
+            <input type="checkbox" data-layer="precip" checked />
+            <span>Precip</span>
+          </label>
+
+          <label class="pill-toggle pill-toggle-active">
+            <input type="checkbox" data-layer="cloud" checked />
+            <span>Cloud</span>
+          </label>
+
+          <label class="pill-toggle pill-toggle-active">
+            <input type="checkbox" data-layer="wind" />
+            <span>Wind</span>
+          </label>
+
+          <label class="pill-toggle pill-toggle-active">
+            <input type="checkbox" data-layer="cloudBase" />
+            <span>Cloud base</span>
+          </label>
+        </div>
+
+        <div class="chart-settings-right">
+          <span class="settings-label">Layout</span>
+
+          <label class="pill-toggle pill-toggle-active">
+            <input type="radio" name="chartLayout" value="combined" checked />
+            <span>Combined</span>
+          </label>
+
+          <label class="pill-toggle">
+            <input type="radio" name="chartLayout" value="split" />
+            <span>Split charts</span>
+          </label>
+        </div>
+      </div>
+
       <div id="chartBox">
         <canvas id="weatherChart"></canvas>
+        <canvas id="weatherChart2" class="split-chart hidden"></canvas>
+        <canvas id="weatherChart3" class="split-chart hidden"></canvas>
+        <div id="premiumOverlay" class="premium-overlay hidden">Want the full 16-day forecast? Sign up for a premium account.</div>
       </div>
 
       <div id="sliderBox">
@@ -51,28 +164,35 @@
           <div id="slider"></div>
         </div>
       </div>
-
-      <div id="summary" class="model-legend"></div>
     </div>
   </div>
 
-  <!-- Leaflet JS -->
-  <script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""
-  ></script>
+  <div id="authModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <button class="modal-close" id="authCloseBtn" type="button">✕</button>
+      <h2>Account</h2>
 
-  <!-- Axios -->
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+      <div class="tab-row">
+        <button id="tabLogin" class="tab tab-active" type="button">Log in</button>
+        <button id="tabSignup" class="tab" type="button">Sign up</button>
+      </div>
 
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <form id="loginForm" class="auth-form">
+        <label>Email <input type="email" id="loginEmail" required /></label>
+        <label>Password <input type="password" id="loginPassword" required /></label>
+        <button type="submit" class="primary-btn fullwidth">Log in</button>
+      </form>
 
-  <!-- noUiSlider JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
+      <form id="signupForm" class="auth-form hidden">
+        <label>Email <input type="email" id="signupEmail" required /></label>
+        <label>Password <input type="password" id="signupPassword" required /></label>
+        <p class="muted small">Accounts in this demo are stored in your browser's localStorage only. Do not use a real password.</p>
+        <button type="submit" class="primary-btn fullwidth">Create free account</button>
+      </form>
+    </div>
+  </div>
 
-  <!-- Your main JavaScript -->
-  <script src="script.js"></script>
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>
