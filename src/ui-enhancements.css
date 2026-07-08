@@ -1,0 +1,208 @@
+#topBar {
+  gap: 14px;
+  justify-content: space-between;
+}
+
+#brand {
+  flex: 0 0 auto;
+}
+
+.header-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1 1 520px;
+  max-width: 620px;
+}
+
+#placeSearchInput {
+  width: 100%;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.95);
+  color: #111;
+  padding: 5px 12px;
+  font-size: 13px;
+  outline: none;
+}
+
+#placeSearchInput:focus {
+  border-color: #7cc7ff;
+  box-shadow: 0 0 0 2px rgba(124, 199, 255, 0.25);
+}
+
+#placeSearchBtn,
+.header-btn {
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  padding: 0 11px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#placeSearchBtn:hover,
+.header-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.search-results {
+  position: absolute;
+  top: 36px;
+  left: 0;
+  right: 70px;
+  z-index: 1500;
+  background: #fff;
+  color: #111;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.search-result-item {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: #fff;
+  padding: 8px 10px;
+  text-align: left;
+  font-size: 12px;
+  cursor: pointer;
+  color: #111;
+}
+
+.search-result-item:hover {
+  background: #f2f7ff;
+}
+
+.search-result-title {
+  font-weight: 600;
+}
+
+.search-result-meta {
+  color: #666;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.header-account {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.header-link {
+  color: #d9ebff;
+  text-decoration-color: rgba(217, 235, 255, 0.75);
+  padding-top: 0;
+  white-space: nowrap;
+}
+
+#sidebar {
+  top: 56px;
+}
+
+.weather-pin-icon {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 999px;
+  background: #0b72ff;
+  color: #fff;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  line-height: 1;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.ski-resort-icon {
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 999px;
+  background: rgba(18, 25, 38, 0.92);
+  color: #fff;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 1;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.28);
+}
+
+.ski-resort-icon:hover {
+  transform: scale(1.08);
+}
+
+.resort-popup-title {
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.resort-popup-meta {
+  color: #666;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.resort-popup-note {
+  color: #333;
+  font-size: 12px;
+}
+
+.pill-toggle:not(.pill-toggle-active) {
+  color: #555;
+  background: #f4f4f4;
+  border-color: #ccc;
+}
+
+@media (max-width: 900px) {
+  #topBar {
+    height: auto;
+    min-height: 44px;
+    flex-wrap: wrap;
+    padding: 6px 10px;
+  }
+
+  #map {
+    inset-top: 72px;
+  }
+
+  .header-search {
+    order: 3;
+    flex: 1 0 100%;
+    max-width: none;
+  }
+
+  .header-account {
+    gap: 6px;
+  }
+
+  .header-link {
+    display: none;
+  }
+
+  #sidebar {
+    top: 86px;
+  }
+}
+
+@media (max-width: 640px) {
+  .header-account .badge {
+    display: none;
+  }
+
+  #placeSearchBtn,
+  .header-btn {
+    padding: 0 8px;
+  }
+}
