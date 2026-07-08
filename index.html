@@ -14,7 +14,20 @@
   </header>
 
   <div id="map"></div>
-  <div id="googleMap" class="hidden"></div>
+
+  <!-- Hidden compatibility controls for the older main app code.
+       The visible basemap selector is now only the Leaflet control in the top-right. -->
+  <div class="hidden" aria-hidden="true">
+    <div id="googleMap" class="hidden"></div>
+    <select id="basemapSelect">
+      <option value="esriTopo">Esri Topo + Hillshade</option>
+      <option value="street">OpenStreetMap Street</option>
+    </select>
+    <div id="googleKeyBox" class="hidden">
+      <input id="googleApiKeyInput" type="password" />
+      <button id="saveGoogleKeyBtn" type="button">Save Google key</button>
+    </div>
+  </div>
 
   <aside id="sidebar">
     <section id="accountPanel" class="panel">
@@ -24,23 +37,6 @@
       </div>
       <button id="loginBtn" class="secondary-btn fullwidth" type="button">Login / Sign up</button>
       <button id="planTestToggleBtn" class="link-btn small" type="button">Switch back to Free test view</button>
-    </section>
-
-    <section id="mapPanel" class="panel">
-      <h4 class="panel-title">Map</h4>
-      <label class="field-label">
-        Basemap
-        <select id="basemapSelect" class="select-control">
-          <option value="esriTopo">Esri Topo + Hillshade</option>
-          <option value="street">OpenStreetMap Street</option>
-          <option value="googleTerrain">Google Terrain</option>
-        </select>
-      </label>
-      <div id="googleKeyBox" class="google-key-box hidden">
-        <p class="small muted">Google Terrain needs a browser API key restricted to your Vercel/GitHub domain.</p>
-        <input id="googleApiKeyInput" class="text-input" type="password" placeholder="Paste Google Maps API key" />
-        <button id="saveGoogleKeyBtn" class="secondary-btn fullwidth" type="button">Save Google key</button>
-      </div>
     </section>
 
     <section id="adsBox" class="panel hidden">
@@ -126,12 +122,12 @@
             <span>Cloud</span>
           </label>
 
-          <label class="pill-toggle pill-toggle-active">
+          <label class="pill-toggle">
             <input type="checkbox" data-layer="wind" />
             <span>Wind</span>
           </label>
 
-          <label class="pill-toggle pill-toggle-active">
+          <label class="pill-toggle">
             <input type="checkbox" data-layer="cloudBase" />
             <span>Cloud base</span>
           </label>
@@ -193,6 +189,18 @@
     </div>
   </div>
 
+  <script>
+    // Remove old Google Terrain preference so nobody gets routed back to it after this update.
+    try {
+      if (localStorage.getItem('snowapp_basemap') === 'googleTerrain') {
+        localStorage.setItem('snowapp_basemap', 'esriTopo');
+      }
+      localStorage.removeItem('snowapp_google_maps_key');
+    } catch (error) {
+      console.warn('Could not clear old Google Terrain preference', error);
+    }
+  </script>
   <script type="module" src="/src/main.js"></script>
+  <script type="module" src="/src/layer-memory.js"></script>
 </body>
 </html>
