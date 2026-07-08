@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --host 0.0.0.0",
-    "build": "vite build",
+    "patch:snowfall": "node scripts/patch-snowfall.cjs",
+    "dev": "npm run patch:snowfall && vite --host 0.0.0.0",
+    "build": "npm run patch:snowfall && vite build",
     "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
